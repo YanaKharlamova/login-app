@@ -15,7 +15,7 @@ function ProfilePage() {
     event.preventDefault();
 
     try {
-      dispatch(logout());
+     await dispatch(logout());
       navigate("/");
     } catch (error) {
       // handle any rejections/errors
