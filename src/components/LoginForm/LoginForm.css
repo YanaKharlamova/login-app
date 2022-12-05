@@ -1,0 +1,10 @@
+.paperStyle {
+  padding: "5rem";
+  height: "70vh";
+  width: 400;
+  margin: "2rem auto";
+  font-size: "2rem";
+}
+.btnStyle {
+  margin: "0.5rem 0";
+}
