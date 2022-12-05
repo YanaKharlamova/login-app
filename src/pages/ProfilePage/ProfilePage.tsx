@@ -1,11 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, selectUser } from "../../app/user-slice";
+import { allUsers, logout } from "../../app/user-slice";
+// import { login, logout } from "../../app/auth-slice";
 
 const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
-  const user = useSelector(selectUser);
+
+  const currentlyLoggedInUser = useSelector(allUsers).find(
+    (user: { currentlyOnline: boolean }) => user.currentlyOnline
+  );
+  // console.log("currOnline", currentlyLoggedInUser);
 
   const dispatch = useDispatch();
 
@@ -23,7 +28,7 @@ const ProfilePage: React.FC = () => {
     <div className="logout">
       <h1>
         Welcome
-        <span className="user__name">{user?.name}</span>
+        <span className="user__name">{currentlyLoggedInUser?.name}</span>
       </h1>
       <button className="logout__button" onClick={handleLogout}>
         Logout

@@ -3,22 +3,44 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: null,
-    isAuthorized: false, // in separate cause..
+    users: [],
+    isAuthorizedUser: false,
   },
   reducers: {
-    login: (state, action) => {
-      state.user = action.payload;
+    authorize: (state, action) => {
+      // state.user = action.payload;
+      const userToAuthorize = action.payload;
+
+      const existUser = state.users.find(
+        (user) => user.id === userToAuthorize.id
+      );
+      if (!existUser) {
+        state.users.push({
+          id: userToAuthorize.id,
+          name: userToAuthorize.name,
+          password: userToAuthorize.password,
+          email: userToAuthorize.email,
+          currentlyOnline: false,
+        });
+      }
+    },
+    goInPersonalAccount: (state, action) => {
+      const userToAuthorizeEmail = action.payload;
+      const existUser = state.users.find(
+        (user) => user.email === userToAuthorizeEmail
+      );
+
+      if (existUser) {
+        existUser.currentlyOnline = true;
+        state.isAuthorizedUser = true;
+      } //do wlse statement
     },
     logout: (state) => {
-      state.user = null;
-    },
-    isAuthorized: (state, action) => {
-      state.isAuthorized = action.payload;
+      state.isAuthorizedUser = false;
     },
   },
 });
-export const { login, logout, isAuthorized } = userSlice.actions;
-export const selectUser = (state) => state.user?.user;
-export const selectIsAuthorized = (state) => state.user?.isAuthorized;
+export const { authorize, goInPersonalAccount, logout } = userSlice.actions;
+export const allUsers = (state) => state.user.users;
+export const isAuthorizedUser = (state) => state.user.isAuthorizedUser;
 export default userSlice;

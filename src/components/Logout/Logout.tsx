@@ -1,5 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
-import { logout, selectUser } from "../../app/user-slice";
 import "./Logout.css";
 
 interface Props {

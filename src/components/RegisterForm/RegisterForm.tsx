@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-// import { isAccessor } from "typescript";
-import { login, selectUser } from "../../app/user-slice";
+import { allUsers, authorize } from "../../app/user-slice";
 import "./RegisterForm.css";
 
 const RegisterForm: React.FC = () => {
@@ -26,22 +25,31 @@ const RegisterForm: React.FC = () => {
     user.password !== "" &&
     user.phoneNumber !== "";
 
+  const allCurrentUsers = useSelector(allUsers);
+
+  //i cant do this in helper -error: neither a React function component nor a custom React Hook function
+  const isUserAlredyExists = (user: { email: string }) => {
+    console.log("users", allCurrentUsers);
+
+    const isExist = allCurrentUsers.find(
+      (authorizedUser: { email: string }) => authorizedUser.email === user.email
+    );
+    return isExist;
+  };
+
+  const isUsersExists = isUserAlredyExists(user);
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     //helper for toastify: should be here
 
-    if (isAllFieldsWithValues) {
-      dispatch(
-        login({
-          name: user.name,
-          email: user.email,
-          password: user.password,
-          loggedIn: true,
-        })
-      );
+    if (isAllFieldsWithValues && !isUsersExists) {
+      dispatch(authorize(user));
       toast.success("User Saved!");
-      navigate("/");
+    } else {
+      toast.error("User already exists!");
     }
+    navigate("/");
   };
 
   return (
