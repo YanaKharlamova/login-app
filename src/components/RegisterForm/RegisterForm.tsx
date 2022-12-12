@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { allUsers, authorize } from "../../app/user-slice";
+import { allUsers, authorize } from "../../app/users-slice";
 import "./RegisterForm.css";
 
 const RegisterForm: React.FC = () => {
@@ -19,31 +19,17 @@ const RegisterForm: React.FC = () => {
     id: Math.random(),
   });
 
+  //or try with loop-fix this
   const isAllFieldsWithValues =
     user.name !== "" &&
     user.email !== "" &&
     user.password !== "" &&
     user.phoneNumber !== "";
 
-  const allCurrentUsers = useSelector(allUsers);
-
-  //i cant do this in helper -error: neither a React function component nor a custom React Hook function
-  const isUserAlredyExists = (user: { email: string }) => {
-    console.log("users", allCurrentUsers);
-
-    const isExist = allCurrentUsers.find(
-      (authorizedUser: { email: string }) => authorizedUser.email === user.email
-    );
-    return isExist;
-  };
-
-  const isUsersExists = isUserAlredyExists(user);
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    //helper for toastify: should be here
 
-    if (isAllFieldsWithValues && !isUsersExists) {
+    if (isAllFieldsWithValues) {
       dispatch(authorize(user));
       toast.success("User Saved!");
     } else {
