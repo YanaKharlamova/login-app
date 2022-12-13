@@ -8,31 +8,24 @@ import {
   // authorize,
   goInPersonalAccount,
   isAuthorizedUser,
-} from "../../app/users-slice";
+} from "../../redux/users-slice";
 
 import "./LoginForm.css";
 
 const Login: React.FC = () => {
-  const [user, setUser] = useState<{ email: string; password: string }>({
-    email: "",
-    password: "",
-  });
+  // const [user, setUser] = useState<{ email: string; password: string }>({
+  //   email: "",
+  //   password: "",
+  // });
 
   let isUserLoggedIn = useSelector(isAuthorizedUser);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const setUserData = (userDataCategory: string, userData: string) => {
-    switch (userData) {
-      case "email":
-        user.email = userData;
-        break;
-      case "password":
-        user.password = userData;
-        break;
-    }
-  };
+  // const setUserData = (userDataCategory: string, userData: string) => {
+  //   switch (userData) {
+  // };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -53,16 +46,16 @@ const Login: React.FC = () => {
       <input
         type="text"
         placeholder="Enter email"
-        // onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-        //   setEmail(event.target.value)
-        // }
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          setEmail(event.target.value)
+        }
       />
       <input
         type="text"
         placeholder="Enter password"
-        // onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-        //   setPassword(event.target.value)
-        // }
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          setPassword(event.target.value)
+        }
       />
       <input type="checkbox" placeholder="Remember me" />
       <button type="submit" className="btnStyle">

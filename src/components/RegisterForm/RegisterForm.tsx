@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { allUsers, authorize } from "../../app/users-slice";
+import { allUsers, authorize } from "../../redux/users-slice";
 import "./RegisterForm.css";
 
 const RegisterForm: React.FC = () => {

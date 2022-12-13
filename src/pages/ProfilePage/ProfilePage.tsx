@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { allUsers, logout, currentUser } from "../../app/users-slice";
+import { allUsers, logout, currentUser } from "../../redux/users-slice";
 
 const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
