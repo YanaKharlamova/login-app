@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { allUsers, authorize } from "../../redux/users-slice";
+import { authorize } from "../../redux/users-slice";
 import "./RegisterForm.css";
 
 const RegisterForm: React.FC = () => {
@@ -19,6 +19,14 @@ const RegisterForm: React.FC = () => {
     id: Math.random(),
   });
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setUser({
+      ...user,
+      [event.target.name]: value,
+    });
+  };
+
   //or try with loop-fix this
   const isAllFieldsWithValues =
     user.name !== "" &&
@@ -30,12 +38,13 @@ const RegisterForm: React.FC = () => {
     event.preventDefault();
 
     if (isAllFieldsWithValues) {
+      //here usin saga:(for authorize)
       dispatch(authorize(user));
       toast.success("User Saved!");
     } else {
       toast.error("User already exists!");
     }
-    navigate("/");
+    navigate("/"); //uncomment it later
   };
 
   return (
@@ -47,16 +56,12 @@ const RegisterForm: React.FC = () => {
           <input
             type="text"
             placeholder="Enter your name"
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setUser({ ...user, name: event.target.value })
-            }
+            onChange={handleChange}
           />
           <input
             type="text"
             placeholder="Enter your email"
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setUser({ ...user, email: event.target.value })
-            }
+            onChange={handleChange}
           />
         </div>
 
@@ -69,16 +74,12 @@ const RegisterForm: React.FC = () => {
         <input
           type="text"
           placeholder="Enter your phone number"
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setUser({ ...user, phoneNumber: event.target.value })
-          }
+          onChange={handleChange}
         />
         <input
           type="text"
           placeholder="Enter your password"
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setUser({ ...user, password: event.target.value })
-          }
+          onChange={handleChange}
         />
         <input type="text" placeholder="Confirm your password" />
         <input
