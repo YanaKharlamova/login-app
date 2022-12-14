@@ -4,7 +4,7 @@ import { call, takeEvery, delay, select } from "redux-saga/effects";
 import { currentUser } from "../users-slice"; //we use these selectors to use data from store inside sagas
 import { toastifyAlert } from "../../helpers/toastify-alerts";
 
-function* handleAddUser() {
+function* handleLoginUser() {
   try {
     const currentLoggedInUser = yield select(currentUser);
 
@@ -29,8 +29,11 @@ function* handleAddUser() {
 
 //to fetch news
 
-export function* userSaga() {
-  yield takeEvery("allUsers/goInPersonalAccount", handleAddUser);
+export function* watchUserLoginSaga() {
+  yield takeEvery("allUsers/goInPersonalAccount", handleLoginUser);
 }
 
-export default userSaga;
+export default function* rootSaga() {
+  //run created watcher - watchClickSaga:
+  yield watchUserLoginSaga();
+}
